@@ -1,10 +1,9 @@
 #!/bin/bash
 DOCKER_MACHINE_NAME="default"
 
-# Check if the VM is already running
+# Check if the VM is already running and restart it if it's the case
 if [ "Running" = $(docker-machine status ${DOCKER_MACHINE_NAME}) ]; then
-  echo -e "Machine ${DOCKER_MACHINE_NAME} is already running."
-  exit 0
+  docker-machine restart ${DOCKER_MACHINE_NAME}
 fi
 
 # Start the VM and load ENV variables in current shell

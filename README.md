@@ -4,11 +4,12 @@ Pour installer Docker sur votre **Mac** :
 
 Installer la dernière version de **[DockerToolbox](https://www.docker.com/docker-toolbox)**. A la fin de l'installation il vous propose de choisir un outil pour démarrer avec Docker, cliquez simplement sur `Docker Quickstart Terminal`, choisissez votre shell et ensuite patientez.
 
-La vm est créée mais on aimerait qu'elle aille une ip custom. Pour ça une petite modification est nécessaire.
+La vm est créée mais on aimerait avoir une ip custom. Pour ça une petite modification est nécessaire.
 
 1. Coupez la VM : `docker-machine stop default`
 2. Executez cette commande dans votre terminal : `sed -i -e "s|$(egrep "HostOnlyCIDR" ~/.docker/machine/machines/default/config.json | cut -d '"' -f 4)|10.0.3.1/24|" ~/.docker/machine/machines/default/config.json`
 3. Relancez la VM : `docker-machine start default`
+4. Regénérez les certificats SSL : `docker-machine regenerate-certs default -f`
 
 _Grâce à l'ip que l'on passe ci-dessus, votre vm bootera avec l'ip **10.0.3.100**_
 
