@@ -60,3 +60,22 @@ docker-compose up -d
 _Si c'est la première fois que vous utilisez ce yml, il va prendre du temps pour provisionner les différents containers._
 
 Vous pouvez maintenance taper `host.dok` dans votre browser pour accéder au site.
+
+---
+
+## Script `docker_commands.sh`
+
+Il s'agit d'un script qui permet d'ajouter des commandes pour simplifier l'utilisation quotidienne de Docker.
+
+_Il est également présent dans le répository `Devtools / Terminaldog`._
+
+### Installation
+
+Il suffit d'exécuter la commandes suivantes (utilisation de bash): 
+
+    mkdir -p ~/.scripts && cp docker_commands.sh ~/.scripts
+    echo "source ~/.scripts/docker_commands.sh" >> ~/.bashrc
+
+Ou, pour les utilisateurs de ZSH, de modifier la 2eme ligne pour pointer votre fichier de configuration (si différent)._
+
+
