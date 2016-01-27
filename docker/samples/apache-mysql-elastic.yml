@@ -1,0 +1,27 @@
+web:
+  build: docker/containers/apache
+  volumes:
+    - "./dev/public:/var/www/public"
+    - "./cut:/var/www/cut"
+  links:
+    - "database:database"
+  environment:
+    - "VIRTUAL_HOST=host.dok"
+
+database:
+  image: mariadb
+  environment:
+    - "MYSQL_ROOT_PASSWORD=docker"
+    - "MYSQL_DATABASE=docker_dev"
+    - "MYSQL_USER=docker"
+    - "MYSQL_PASSWORD=docker"
+  ports:
+    - "3306"
+
+elastic:
+  build: docker/containers/elastic
+  volumes:
+    - "./database:/usr/share/elasticsearch/data"
+  ports:
+    - "9200:9200"
+    - "9300:9300"
