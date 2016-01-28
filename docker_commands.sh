@@ -4,8 +4,9 @@ export DR="\033[0;31m"
 export DG="\033[0;32m"
 export DB="\033[1;34m"
 export DN="\033[0m"
+export DOUT=/dev/null # Use /dev/null (prod) ou /dev/tty (debug)
 
-if [ -e "$(which docker-machine)" ]; then	
+if [ -e "$(which docker-machine)" ]; then   
 
     function _dockerMachineName()
     {
@@ -46,7 +47,7 @@ if [ -e "$(which docker-machine)" ]; then
     {
         # Update and restart DnsMask (if present)
         if [ -f $(brew --prefix)/etc/dnsmasq.conf ]; then
-            if ! grep "$(docker-machine ip ${DOCKER_MACHINE_NAME})" $(brew --prefix)/etc/dnsmasq.conf >/dev/null ; then
+            if ! grep "$(docker-machine ip ${DOCKER_MACHINE_NAME})" $(brew --prefix)/etc/dnsmasq.conf >$DOUT ; then
                 echo -e "${DOCKER_PREFIX} I need ${DB}update DnsMask${DN} to match IP: $(docker-machine ip ${DOCKER_MACHINE_NAME})."
 
                 sed -i -e "s|/[0-9.]*$|/$(docker-machine ip ${DOCKER_MACHINE_NAME})|" $(brew --prefix)/etc/dnsmasq.conf
@@ -68,8 +69,8 @@ if [ -e "$(which docker-machine)" ]; then
       
         docker-machine start ${DOCKER_MACHINE_NAME}
 
-        until docker-machine env ${DOCKER_MACHINE_NAME} >/dev/null 2>&1; do
-            if docker-machine env default 2>&1 | grep "docker-machine regenerate-certs" >/dev/null; then
+        until docker-machine env ${DOCKER_MACHINE_NAME} &>$DOUT; do
+            if docker-machine env ${DOCKER_MACHINE_NAME} 2>&1 | grep "docker-machine regenerate-certs" >$DOUT; then
                 docker-machine regenerate-certs -f ${DOCKER_MACHINE_NAME}
             fi
             echo "." ; sleep 1
@@ -102,7 +103,7 @@ if [ -e "$(which docker-machine)" ]; then
 
         docker-machine stop ${DOCKER_MACHINE_NAME}
 
-        while docker-machine env ${DOCKER_MACHINE_NAME} >/dev/null 2>&1; do
+        while docker-machine env ${DOCKER_MACHINE_NAME} &>$DOUT; do
             echo -n "." ; sleep 1
         done
 
@@ -116,7 +117,7 @@ if [ -e "$(which docker-machine)" ]; then
         _dockerMachineName $1
 
         if [ "Running" = $(docker-machine status ${DOCKER_MACHINE_NAME}) ]; then
-            if $(docker-machine env ${DOCKER_MACHINE_NAME} >/dev/null 2>&1) ; then
+            if $(docker-machine env ${DOCKER_MACHINE_NAME} &>$DOUT) ; then
                 eval "$(docker-machine env ${DOCKER_MACHINE_NAME})"
                 echo -e "${DOCKER_PREFIX} Machine ${DOCKER_MACHINE_NAME} is ${DG}connected${DN} with IP : $(docker-machine ip ${DOCKER_MACHINE_NAME})\n"
 
@@ -163,7 +164,7 @@ if [ -e "$(which docker-machine)" ]; then
     # -------------------------------------------------------------------------
     # Autocompleter
 
-    if $(type complete >/dev/null); then
+    if $(type complete >$DOUT); then
         function _completecontainer()
         {
             local word="${COMP_WORDS[COMP_CWORD]}"
