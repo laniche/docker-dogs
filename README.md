@@ -29,6 +29,22 @@ sudo bash -c 'echo "nameserver 127.0.0.1" > /etc/resolver/dok'
 
 Toutes les adresses avec le domaine `.dok` pointent maintenant sur l'ip `10.0.3.100` et donc si votre vm tourne, vous devriez maintenant pouvoir pinger nimportequoi.dok. Si ça ne ping pas, redémarrez votre Mac.
 
+### Optionnel "2"
+
+Pour facilité l'utilisation quotidienne nous avons développé une série de commande "anti-prise-de-tête" pour : 
+
+* démarrer/arrêter facilement la VM de gestion.
+* lancer/arrêter les conteneurs de nos projets
+
+_Il est également présent dans le répository `Devtools / Terminaldog`._
+
+Pour les installer, il suffit d'exécuter la commandes suivantes (utilisation de bash): 
+
+    mkdir -p ~/.scripts && cp docker_commands.sh ~/.scripts
+    echo "source ~/.scripts/docker_commands.sh" >> ~/.bashrc
+
+Ou, pour les utilisateurs de ZSH, de modifier la 2eme ligne pour pointer votre fichier de configuration (si différent)._
+
 ## Utilisation de Docker
 
 Pour pouvoir lancer des containers il faut d'abord s'assurer que votre vm tourne. Le script `startup.sh` s'occupe de lancer la VM + les containers de bases (nginx-proxy). 
@@ -60,22 +76,3 @@ docker-compose up -d
 _Si c'est la première fois que vous utilisez ce yml, il va prendre du temps pour provisionner les différents containers._
 
 Vous pouvez maintenance taper `host.dok` dans votre browser pour accéder au site.
-
----
-
-## Script `docker_commands.sh`
-
-Il s'agit d'un script qui permet d'ajouter des commandes pour simplifier l'utilisation quotidienne de Docker.
-
-_Il est également présent dans le répository `Devtools / Terminaldog`._
-
-### Installation
-
-Il suffit d'exécuter la commandes suivantes (utilisation de bash): 
-
-    mkdir -p ~/.scripts && cp docker_commands.sh ~/.scripts
-    echo "source ~/.scripts/docker_commands.sh" >> ~/.bashrc
-
-Ou, pour les utilisateurs de ZSH, de modifier la 2eme ligne pour pointer votre fichier de configuration (si différent)._
-
-

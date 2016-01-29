@@ -18,7 +18,7 @@ if [ -e "$(which docker-machine)" ]; then
 
     function _dockerAlias()
     {
-        alias doup="docker-compose build && docker-compose up -d"
+        alias doup="docker-compose build && docker-compose up"
         alias dodown="docker-compose stop"
         alias dorestart="dodown && doup"
         alias dologs="docker-compose logs"
@@ -47,10 +47,11 @@ if [ -e "$(which docker-machine)" ]; then
     {
         # Update and restart DnsMask (if present)
         if [ -f $(brew --prefix)/etc/dnsmasq.conf ]; then
-            if ! grep "$(docker-machine ip ${DOCKER_MACHINE_NAME})" $(brew --prefix)/etc/dnsmasq.conf >$DOUT ; then
-                echo -e "${DOCKER_PREFIX} I need ${DB}update DnsMask${DN} to match IP: $(docker-machine ip ${DOCKER_MACHINE_NAME})."
+            local DM_IP="$(docker-machine ip ${DOCKER_MACHINE_NAME})"
+            if ! grep "${DM_IP}" $(brew --prefix)/etc/dnsmasq.conf >$DOUT ; then
+                echo -e "${DOCKER_PREFIX} I need ${DB}update DnsMask${DN} to match IP: ${DM_IP}."
 
-                sed -i -e "s|/[0-9.]*$|/$(docker-machine ip ${DOCKER_MACHINE_NAME})|" $(brew --prefix)/etc/dnsmasq.conf
+                sed -i -e "s|/[0-9.]*$|/${DM_IP}|" $(brew --prefix)/etc/dnsmasq.conf
                 sudo launchctl stop homebrew.mxcl.dnsmasq && sudo killall -HUP mDNSResponder && sudo launchctl start homebrew.mxcl.dnsmasq
             fi
         fi
@@ -144,8 +145,13 @@ if [ -e "$(which docker-machine)" ]; then
 
     function dodb()
     {
-        DOCKER_MYSQL_PORT=$(docker-compose ps | grep "3306" | head -n 1 | tr -s " " | cut -d " " -f 5 | cut -d ":" -f2 | cut -d "-" -f 1)
-        ssh -i ~/.docker/machine/machines/${DOCKER_MACHINE_NAME}/id_rsa -L 3306:localhost:${DOCKER_MYSQL_PORT} docker@mysql.dok
+        local DP_MYSQL=$(docker-compose ps | grep "3306" | head -n 1 | tr -s " " | cut -d " " -f 5 | cut -d ":" -f2 | cut -d "-" -f 1)
+        local DP_MAILCATCHER=$(docker-compose ps | grep "1080" | head -n 1 | tr -s " " | cut -d " " -f 7 | cut -d ":" -f2 | cut -d "-" -f 1)
+
+        ssh -i ~/.docker/machine/machines/${DOCKER_MACHINE_NAME}/id_rsa \
+            -L 3306:localhost:${DP_MYSQL} \ 
+            -L 3306:localhost:${DP_MAILCATCHER} \ 
+            docker@mysql.dok
     }
 
     # -------------------------------------------------------------------------
@@ -153,12 +159,12 @@ if [ -e "$(which docker-machine)" ]; then
     function dohelp()
     {
         echo -e "${DOCKER_PREFIX} Helper Commands.\n"
-        echo -e "  ${DB}dostart${DN} : Detect and start a Docker VM."
-        echo -e "  ${DB}dostop${DN} : Stop the connected Docker VM."
-        echo -e "  ${DB}doconnect${DN} : Set Docker environnement for your shell."
-        echo -e "  ${DB}doup${DN} : Build and Up the current Docker compose."
-        echo -e "  ${DB}dodown${DN} : Down the current Docker compose."
-        echo -e "  ${DB}dologs${DN} : Start the Logging system for the current Docker compose."
+        echo -e "\t${DB}dostart${DN} : Detect and start a Docker VM."
+        echo -e "\t${DB}dostop${DN} : Stop the connected Docker VM."
+        echo -e "\t${DB}doconnect${DN} : Set Docker environnement for your shell."
+        echo -e "\t${DB}doup${DN} [-d] : Build and Up the current Docker compose. (-d start de container as deamon)"
+        echo -e "\t${DB}dodown${DN} : Down the current Docker compose."
+        echo -e "\t${DB}dologs${DN} : Start the Logging system for the current Docker compose."
     }
 
     # -------------------------------------------------------------------------
@@ -167,15 +173,15 @@ if [ -e "$(which docker-machine)" ]; then
     if $(type complete >$DOUT); then
         function _completecontainer()
         {
-            local word="${COMP_WORDS[COMP_CWORD]}"
-            COMPREPLY=( $(compgen -W "$(docker-compose ps | egrep "^[a-z].*" | cut -d" " -f1)" -- "$word") )
+            local WORD="${COMP_WORDS[COMP_CWORD]}"
+            COMPREPLY=( $(compgen -W "$(docker-compose ps | egrep "^[a-z].*" | cut -d" " -f1)" -- "$WORD") )
         }
         complete -F _completecontainer doshell
 
         function _completemachine()
         {
-            local word="${COMP_WORDS[COMP_CWORD]}"
-            COMPREPLY=( $(compgen -W "$(docker-machine ls -q)" -- "$word") )   
+            local WORD="${COMP_WORDS[COMP_CWORD]}"
+            COMPREPLY=( $(compgen -W "$(docker-machine ls -q)" -- "$WORD") )   
         }
         complete -F _completemachine dostart
         complete -F _completemachine dostop
