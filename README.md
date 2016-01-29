@@ -29,6 +29,28 @@ sudo bash -c 'echo "nameserver 127.0.0.1" > /etc/resolver/dok'
 
 Toutes les adresses avec le domaine `.dok` pointent maintenant sur l'ip `10.0.3.100` et donc si votre vm tourne, vous devriez maintenant pouvoir pinger nimportequoi.dok. Si ça ne ping pas, redémarrez votre Mac.
 
+#### En cas de problème 
+Si ceci ne fonctionne pas, vérifiez que vous disposez bien du dossier `/usr/local/sbin`
+ 
+```
+sudo mkdir -p /usr/local/sbin/
+```
+
+avec le user `root`et le groupe `admin` 
+
+```
+sudo chown root:admin /usr/local/sbin
+```
+```
+sudo chmod 0775 /usr/local/sbin
+```
+
+Ensuite Vous pouvez créer le lien symbolique vers dnsmasq
+
+```
+brew link --overwrite dnsmasq
+```
+
 ### Optionnel "2"
 
 Pour facilité l'utilisation quotidienne nous avons développé une série de commande "anti-prise-de-tête" pour : 
