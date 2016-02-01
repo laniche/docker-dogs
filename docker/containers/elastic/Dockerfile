@@ -1,5 +1,4 @@
 FROM elasticsearch:1.7
-
 MAINTAINER Nicolas Collard <beauceron@dogstudio.be>
 
 RUN usermod -u 1000 elasticsearch

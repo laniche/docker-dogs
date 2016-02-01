@@ -1,5 +1,5 @@
 web:
-  build: docker/containers/apache
+  build: docker/containers/apache-php
   volumes:
     - "./dev/public:/var/www/public"
     - "./cut:/var/www/cut"
