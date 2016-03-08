@@ -12,7 +12,7 @@ web:
     - "VIRTUAL_HOST=host.dok"
 
 php:
-  build: docker/containers/nginx/php56-fpm
+  build: docker/containers/php56-fpm
   volumes:
     - "./dev/public:/var/www/public"
   ports:
