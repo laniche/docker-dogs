@@ -20,7 +20,7 @@ database:
     - "3306"
 
 mailcatcher:
-  image: "schickling/mailcatcher"
+  build: docker/containers/mailcatcher
   ports:
     - "1025"
     - "1080"
