@@ -12,7 +12,7 @@ web:
     - "VIRTUAL_HOST=host.dok"
 
 php:
-  build: docker/containers/nginx/php56-fpm
+  build: docker/containers/php56-fpm
   volumes:
     - "./dev/public:/var/www/public"
   ports:
@@ -32,7 +32,7 @@ database:
     - "3306"
 
 mailcatcher:
-  image: "schickling/mailcatcher"
+  build: docker/containers/mailcatcher
   ports:
     - "1025"
     - "1080"
