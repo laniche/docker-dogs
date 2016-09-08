@@ -1,6 +1,20 @@
-## Installer et configurer Docker
+# Docker for Dogs
 
-Pour installer Docker sur votre **Mac** :
+## Install and configure Docker
+
+> To install [Docker](http://docker.com) on your Mac...
+
+It's now possibile ton install Docker directly on your Mac, without need of Virtualbox.
+
+1. Download the application "Docker for Mac" from the site [Docker.com](https://www.docker.com/products/docker#/mac)
+1. Unpack the app and start the installation
+
+`TODO : complete the installation doc.`
+
+### Docker Toolbox
+
+> Previously, it was necessary to install a VBox because Docker was'nt supported nativelly on OSX. 
+> We keep this procedire here for historical reasons.
 
 Installer la dernière version de **[DockerToolbox](https://www.docker.com/docker-toolbox)**. A la fin de l'installation il vous propose de choisir un outil pour démarrer avec Docker, cliquez simplement sur `Docker Quickstart Terminal`, choisissez votre shell et ensuite patientez.
 
@@ -13,54 +27,12 @@ La vm est créée mais on aimerait avoir une ip custom. Pour ça une petite modi
 
 _Grâce à l'ip que l'on passe ci-dessus, votre vm bootera avec l'ip **10.0.3.100**_
 
-### Optionnel 
+## Using Docker
 
-Si vous ne voulez plus éditer votre fichier `/etc/hosts` à la main pour chaque nouveau site sur lequel vous bossez, vous pouvez installer `dnsmasq` en éxecutant ces commandes :
+> TODO: refactor this part of documentation...
 
-```
-brew install dnsmasq
-mkdir -pv $(brew --prefix)/etc/
-echo 'address=/.dok/10.0.3.100' > $(brew --prefix)/etc/dnsmasq.conf
-sudo cp -v $(brew --prefix dnsmasq)/homebrew.mxcl.dnsmasq.plist /Library/LaunchDaemons
-sudo launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
-sudo mkdir -v /etc/resolver
-sudo bash -c 'echo "nameserver 127.0.0.1" > /etc/resolver/dok'
-```
-
-Toutes les adresses avec le domaine `.dok` pointent maintenant sur l'ip `10.0.3.100` et donc si votre vm tourne, vous devriez maintenant pouvoir pinger nimportequoi.dok. Si ça ne ping pas, redémarrez votre Mac.
-
-#### En cas de problème 
-Dans le cas où l'installation retourne une erreur : "not linked", vérifiez la présence de `/usr/local/sbin` et si besoin créez le : 
- 
-```
-sudo mkdir -p /usr/local/sbin/ && sudo chown root:admin /usr/local/sbin && sudo chmod 0775 /usr/local/sbin
-```
-
-Ensuite Vous pouvez créer le lien symbolique vers dnsmasq
-
-```
-brew link --overwrite dnsmasq
-```
-
-### Optionnel "2"
-
-Pour facilité l'utilisation quotidienne nous avons développé une série de commande "anti-prise-de-tête" pour : 
-
-* démarrer/arrêter facilement la VM de gestion.
-* lancer/arrêter les conteneurs de nos projets
-
-_Il est également présent dans le répository `Devtools / Terminaldog`._
-
-Pour les installer, il suffit d'exécuter la commandes suivantes (utilisation de bash): 
-
-    mkdir -p ~/.scripts && cp docker_commands.sh ~/.scripts
-    echo "source ~/.scripts/docker_commands.sh" >> ~/.bashrc
-
-Ou, pour les utilisateurs de ZSH, de modifier la 2eme ligne pour pointer votre fichier de configuration (si différent)._
-
-## Utilisation de Docker
-
-Pour pouvoir lancer des containers il faut d'abord s'assurer que votre vm tourne. Le script `startup.sh` s'occupe de lancer la VM + les containers de bases (nginx-proxy). 
+Pour pouvoir lancer des containers il faut d'abord s'assurer que votre vm tourne.
+Le script `startup.sh` s'occupe de lancer la VM + les containers de bases (nginx-proxy). 
 Vous pouvez déplacer ce script dans un `/usr/local/bin` pour en faire une commande et pour pouvoir l'appeller depuis n'importe où.
 Pour cela, exécutez les commandes suivantes :
 
@@ -86,6 +58,6 @@ Editer le yml et adaptez le à votre convenance. Modifier le `VIRTUAL_HOST` et l
 docker-compose up -d
 ```
 
-_Si c'est la première fois que vous utilisez ce yml, il va prendre du temps pour provisionner les différents containers._
+_Si c'est la première fois que vous utilisez ce yml, il va prendre du temps pour "provisionner" les différents containers._
 
 Vous pouvez maintenance taper `host.dok` dans votre browser pour accéder au site.

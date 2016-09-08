@@ -14,8 +14,7 @@ RUN apt-get update && apt-get install -y \
 RUN echo "mailhub=mailcatcher:1025\nUseTLS=NO\nFromLineOverride=YES" > /etc/ssmtp/ssmtp.conf
 
 ADD ./php.ini /usr/local/etc/php/
-ADD ./default.conf /etc/apache2/sites-available/
-RUN a2ensite default
+ADD ./000-default.conf /etc/apache2/sites-available/
 RUN a2enmod rewrite
 
 RUN ln -sf /dev/stdout /var/log/apache2/access.log
