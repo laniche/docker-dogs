@@ -19,9 +19,16 @@ You need ["Homebrew"](http://brew.sh/) to installe the packages for DNSMASQ.ets 
 
 1. Create the configuration file :
 
-        mkdir -pv $(brew --prefix)/etc/
-        echo 'address=/.dev/10.0.1.9' > $(brew --prefix)/etc/dnsmasq.conf
-        echo 'address=/.dok/127.0.0.1' > $(brew --prefix)/etc/dnsmasq.conf
+        mkdir -pv $(brew --prefix)/etc/ && touch $(brew --prefix)/etc/dnsmasq.conf
+
+        # For (old) Vagrant 
+        echo 'address=/.dev/10.0.1.9' >> $(brew --prefix)/etc/dnsmasq.conf
+        
+        # For Docker Toolbox
+        echo 'address=/.dok/10.0.0.30' >> $(brew --prefix)/etc/dnsmasq.conf
+        
+        # For Docker for mac
+        echo 'address=/.dok/127.0.0.1' >> $(brew --prefix)/etc/dnsmasq.conf
 
 1. Preparing and starting the service
     
