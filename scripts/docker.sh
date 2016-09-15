@@ -35,6 +35,8 @@ if [ -e "$(which docker)" ]; then
         alias dorestart="dodown && doup"
         alias doreload="dodown && doup"
         alias dologs="doco logs"
+
+        alias docleanstart="doco rm && doco build --no-cache --force-rm && doco up -d"
     }
     
     # -------------------------------------------------------------------------
