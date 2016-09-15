@@ -1,0 +1,17 @@
+database:
+  build: docker/mariadb
+  ports:
+    - "3306:3306"
+
+web:
+  build: docker/apache
+  links:
+    - "database:database"
+  ports:
+    - "80:80"
+    - "443:443"
+  volumes:
+    - "./dev/public:/var/www/public"
+    - "./cut:/var/www/cut"
+    - "./database:/var/www/database"
+

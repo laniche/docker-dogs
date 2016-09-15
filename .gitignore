@@ -2,31 +2,4 @@
 .DS_Store
 ._*
 
-# PhpStorm
-.idea
-
-# Sublime Text
-*.sublime-*
-
-# Vim
-.*.swp
-
-# Vagrant
-.vagrant
-vagrant.json
-
-# Composer
-dev/public/vendor
-vagrant/vendor
-
-# Emulsion
-dev/public/files/library/
-dev/public/files/log/
-dev/public/files/cache/
-dev/public/files/templates/auxipress/public/assets/videos/
-
-# CUTS
-.sass-cache/
-node_modules/
-
-docker-compose.yml
+docs/
