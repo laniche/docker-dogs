@@ -60,6 +60,10 @@ The first time you start a `docker-compose` for your project, it take a while be
 
 > TODO !
 
+### Command aliases
+
+> TODO !
+
 ---
 
 ### Disclaimer
