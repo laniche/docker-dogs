@@ -1,63 +1,73 @@
 # Docker for Dogs
 
-## Install and configure Docker
+This document describe how to install and use [Docker](http://docker.com) as part of our developments. It does'nt explain what's Docker, Container, and so. If you want more informations about that, please, ... **[RTFM!](https://docs.docker.com/)**
 
-> To install [Docker](http://docker.com) on your Mac...
+## Install "Docker for Mac"
 
-It's now possibile ton install Docker directly on your Mac, without need of Virtualbox.
+It's now possibile to install Docker directly on your Mac, without need of Virtualbox.
 
-1. Download the application "Docker for Mac" from the site [Docker.com](https://www.docker.com/products/docker#/mac)
-1. Unpack the app and start the installation
+> If you already have "Docker Toolbox" installed, read [this page](https://docs.docker.com/docker-for-mac/docker-toolbox/) and follow   the described steps before installer Docker for Mac.
 
-`TODO : complete the installation doc.`
+1. Download the application "[Docker for Mac](https://www.docker.com/products/docker#/mac)"
+1. Unpack the app and start the installation.
 
-### Docker Toolbox
+After the application start, you can edit preferences : 
 
-> Previously, it was necessary to install a VBox because Docker was'nt supported nativelly on OSX. 
-> We keep this procedire here for historical reasons.
+* Increase to `4Cpus` and `4Gb` (or more) in "General" tab
+* and uncheck "Automatic Update" to avoid problems with a broken release.
+* Uncheck usage and crash report in the "Privacy" tab.
 
-Installer la dernière version de **[DockerToolbox](https://www.docker.com/docker-toolbox)**. A la fin de l'installation il vous propose de choisir un outil pour démarrer avec Docker, cliquez simplement sur `Docker Quickstart Terminal`, choisissez votre shell et ensuite patientez.
+At this point, a Docker deamon is started on your machine and you can deploy container directly on it.
 
-La vm est créée mais on aimerait avoir une ip custom. Pour ça une petite modification est nécessaire.
+> You can test your installation with `docker run hello-world`
+> Then, run `docker ps -a` to see the container list...
+> and `docker rm hello-world` to remove this useless container.
 
-1. Coupez la VM : `docker-machine stop default`
-2. Executez cette commande dans votre terminal : `sed -i -e "s|$(egrep "HostOnlyCIDR" ~/.docker/machine/machines/default/config.json | cut -d '"' -f 4)|10.0.3.1/24|" ~/.docker/machine/machines/default/config.json`
-3. Relancez la VM : `docker-machine start default`
-4. Regénérez les certificats SSL : `docker-machine regenerate-certs default -f`
+## The basic command
 
-_Grâce à l'ip que l'on passe ci-dessus, votre vm bootera avec l'ip **10.0.3.100**_
+> , that we will not use !
 
-## Using Docker
+To manage your containers, you normaly use `docker` command ; But this commande (and all his parameters) is used to controlle one container at a time.
+In our project, we want you multiple containers : for web service, database, mail catching, ...
+Then we prefere to use `docker-compose`...
 
-> TODO: refactor this part of documentation...
+> It is significant that even to know how work this command then, one more time, **[RTFM!](https://docs.docker.com/engine/reference/commandline/#the-docker-commands)**
 
-Pour pouvoir lancer des containers il faut d'abord s'assurer que votre vm tourne.
-Le script `startup.sh` s'occupe de lancer la VM + les containers de bases (nginx-proxy). 
-Vous pouvez déplacer ce script dans un `/usr/local/bin` pour en faire une commande et pour pouvoir l'appeller depuis n'importe où.
-Pour cela, exécutez les commandes suivantes :
+## Using Docker (compose), for every day
 
-```
-sudo cp startup.sh /usr/local/bin/docker-start
-rehash
-```
+We use `docker-compose` to create environnement for our projects. That's a utility provided by Docker to prepare a bundle of containers and those interactions (Ports, Volumes).
 
-Vous pouvez maintenant taper `docker-start` pour lancer tout ce qui est nécessaire à l'utilisation de Docker. Une fois que le script a fini de tourner, vous êtes prêt à utiliser Docker.
+> Look at [Docker Compose Manual](https://docs.docker.com/compose/overview/).
 
-Il y a un dossier `docker` ou plus précisemment `docker/samples` qui contient tout ce qu'il faut. Nous utilisons `docker-compose` qui permet en gros de lancer un pool de container grâce à un fichier de config yml. 
-Le dossier `samples` contient des yml qui sont utilisables out of the box. Il vous suffit d'en choisir un et de le copier à la racine de votre projet :
+In each one, you can find :
 
-```
-cp docker/samples/apache-mysql.yml docker-compose.yml
-```
+- a `docker` folder with sub-folder for our container definitions
+- and a `docker-compose.yml` that describe how Docker must use these containers.
 
-_C'est important de garder le nom `docker-compose.yml`._
+In the `docker` folder of the project, there is samples `yml` files they provide template for your `docker-compose.yml`.
+_It's important to keep the name `docker-compose.yml`._
 
-Editer le yml et adaptez le à votre convenance. Modifier le `VIRTUAL_HOST` et le nom de la db `MYSQL_DATABASE`. Vous pouvez ensuite lancer les container :
+### Start / Stop
 
-```
-docker-compose up -d
-```
+* Go on the root of your project and `docker-compose build` to create to container images.
+* then use `docker-compose up -d` to start your docker projets (in background with `-d` option)
+* You can type `docker logs -f` to show the flow of logs during your work session
+* and `docker-compose down` to stop the containers.
 
-_Si c'est la première fois que vous utilisez ce yml, il va prendre du temps pour "provisionner" les différents containers._
+The first time you start a `docker-compose` for your project, it take a while because he need download the images and build the containers.
 
-Vous pouvez maintenance taper `host.dok` dans votre browser pour accéder au site.
+### Datas persistancy
+
+> TODO !
+
+---
+
+### Disclaimer
+
+In our projects, we will use the most simple container as possible : 
+
+1. A container with _Apache+PHP_
+2. An other one with _Maria DB_
+3. (optionnaly some others for elastic, mailcatcher, ...)
+
+If you want add other containers or change the infrastructure, make it at your own risk. 
