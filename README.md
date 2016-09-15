@@ -62,7 +62,11 @@ The first time you start a `docker-compose` for your project, it take a while be
 
 ### Command aliases
 
-> TODO !
+We have created a shell script that provide user friendly commands for you daily use of Docker.
+
+You can install it with :
+
+    curl -s https://raw.githubusercontent.com/Dogstudio/docker-dogs/master/scripts/docker_commands.sh | bash
 
 ---
 

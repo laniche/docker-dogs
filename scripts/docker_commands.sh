@@ -28,7 +28,7 @@ fi
 
 DOCKER_PATH="$HOME/.docker"
 DOCKER_SCRIPT="docker_commands.sh"
-DOCKER_URL="http://localhost/${DOCKER_SCRIPT}"
+DOCKER_URL="https://raw.githubusercontent.com/Dogstudio/docker-dogs/master/scripts/${DOCKER_SCRIPT}"
 
 [ "$(basename -- $0)" != "$(basename $DOCKER_SCRIPT)" ] && [ -z "${BASH_SOURCE[0]}" ] && (
     # If ROOT, install globally
