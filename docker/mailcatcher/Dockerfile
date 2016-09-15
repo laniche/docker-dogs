@@ -1,5 +1,5 @@
 FROM ruby:2.2
-MAINTAINER Nicolas Collard "beauceron@dogstudio.be"
+MAINTAINER Dogstudion <devs@dogstudio.be>
 
 RUN apt-get update && apt-get install -y build-essential sqlite3 libsqlite3-dev
 
