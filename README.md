@@ -33,6 +33,14 @@ Then we prefere to use `docker-compose`...
 
 > It is significant that even to know how work this command then, one more time, **[RTFM!](https://docs.docker.com/engine/reference/commandline/#the-docker-commands)**
 
+## Add Docker to my project
+
+If your project respect the _Dogstudio project strucuture_, using Docker is extremaly simple :
+
+1. Copy the `Docker` folder and `docker-compose.yml` to your `root` project.
+1. Start docker with `doup`
+
+
 ## Using Docker (compose), for every day
 
 We use `docker-compose` to create environnement for our projects. That's a utility provided by Docker to prepare a bundle of containers and those interactions (Ports, Volumes).
