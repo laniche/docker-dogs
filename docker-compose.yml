@@ -10,7 +10,7 @@ web:
   ports:
     - "80:80"
     - "443:443"
-    - "9000:9000"
+
   volumes:
     - "./dev/public:/var/www/public"
     - "./cut:/var/www/cut"

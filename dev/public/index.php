@@ -11,4 +11,9 @@
  */
 
 $now = new DateTime();
-echo '<pre>', $now->format('c'), '</pre>', PHP_EOL;
+echo '<pre>', print_r([
+    $now->format('c'),
+    $_SERVER
+], true), '</pre>'; exit;
+
+
