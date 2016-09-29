@@ -14,7 +14,7 @@ RUN docker-php-ext-install iconv mbstring mcrypt mysql mysqli pdo pdo_mysql \
 
 # Configure PHP
 RUN echo "max_execution_time = 6000\n\
-memory_limit = 120\n\
+memory_limit = 120M\n\
 upload_max_filesize = 2M\n\
 max_file_uploads = 20\n\
 default_charset = \"UTF-8\"\n\
