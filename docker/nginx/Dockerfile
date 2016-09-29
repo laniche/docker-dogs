@@ -1,5 +1,5 @@
 FROM nginx
-MAINTAINER Thierry 'Akarun' Lagasse <thierry@passtech.be>
+MAINTAINER Dogstudio <developers@dogstudio.be>
 
 RUN sed -i -e "/user/s/nginx/www-data/g" /etc/nginx/nginx.conf
 RUN rm /etc/nginx/conf.d/default.conf

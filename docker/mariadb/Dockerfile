@@ -1,5 +1,5 @@
 FROM mariadb
-MAINTAINER Thierry Lagasse <epagneul@dogstudio.be>
+MAINTAINER Dogstudio <developers@dogstudio.be>
 
 ENV MYSQL_ROOT_PASSWORD docker
 ENV MYSQL_DATABASE docker_dev

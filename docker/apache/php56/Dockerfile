@@ -1,5 +1,5 @@
 FROM php:5.6-apache
-MAINTAINER Thierry Lagasse <epagneul@dogstudio.be>
+MAINTAINER Dogstudio <developers@dogstudio.be>
 
 RUN apt-get update && apt-get install -y \
         build-essential \

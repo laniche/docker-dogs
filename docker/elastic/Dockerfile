@@ -1,5 +1,5 @@
 FROM ELASTICSEARCH:1.7
-MAINTAINER Dogstudion <devs@dogstudio.be>
+MAINTAINER Dogstudio <devs@dogstudio.be>
 
 RUN USERMOD -U 1000 ELASTICSEARCH
 RUN usermod -a -G users elasticsearch

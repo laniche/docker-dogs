@@ -1,5 +1,5 @@
 FROM php:5.6-fpm
-MAINTAINER Thierry 'Akarun' Lagasse <thierry@passtech.be>
+MAINTAINER Dogstudio <devs@dogstudio.be>
 
 RUN apt-get update && apt-get install -y \
       mcrypt \
