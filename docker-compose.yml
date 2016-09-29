@@ -1,18 +1,17 @@
-database:
-  build: docker/mariadb
-  ports:
-    - "3306:3306"
+version: "2"
 
-web:
-  build: docker/apache/php7
-  links:
-    - "database:database"
-  ports:
-    - "80:80"
-    - "443:443"
+services:
+  database:
+    image: dogstudio/mariadb
+    ports:
+      - "3306:3306"
 
-  volumes:
-    - "./dev/public:/var/www/public"
-    - "./cut:/var/www/cut"
-    - "./database:/var/www/database"
-
+  web:
+    image: dogstudio/php
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "./dev/public:/var/www/public"
+      - "./cut:/var/www/cut"
+      - "./database:/var/www/database"

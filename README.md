@@ -1,6 +1,8 @@
 # Docker for Dogs
 
-This document describe how to install and use [Docker](http://docker.com) as part of our developments. It does'nt explain what's Docker, Container, and so. If you want more informations about that, please, ... **[RTFM!](https://docs.docker.com/)**
+This document describe how to install and use [Docker](http://docker.com) as part of our developments.  
+It does'nt explain what's Docker, Container, and so. If you want more informations about that, please, ...
+**[RTFM!](https://docs.docker.com/)**
 
 ## Install "Docker for Mac"
 
@@ -23,37 +25,29 @@ At this point, a Docker deamon is started on your machine and you can deploy con
 > Then, run `docker ps -a` to see the container list...
 > and `docker rm hello-world` to remove this useless container.
 
-## The basic command
+## The basic commands
 
 > , that we will not use !
 
-To manage your containers, you normaly use `docker` command ; But this commande (and all his parameters) is used to controlle one container at a time.
-In our project, we want you multiple containers : for web service, database, mail catching, ...
-Then we prefere to use `docker-compose`...
+To manage your containers, you normally use the `docker` command ; But this command (and all his parameters) is used to control one container at a time.
+In our projects, we want use multiple containers : for web service, database, mail catching, ...
+So, we will use `docker-compose`...
 
-> It is significant that even to know how work this command then, one more time, **[RTFM!](https://docs.docker.com/engine/reference/commandline/#the-docker-commands)**
+> It is important to even know how work this command so, one more time, **[RTFM!](https://docs.docker.com/engine/reference/commandline/#the-docker-commands)**
 
 ## Add Docker to my project
 
 If your project respect the _Dogstudio project strucuture_, using Docker is extremaly simple :
 
-1. Copy the `Docker` folder and `docker-compose.yml` to your `root` project.
-1. Start docker with `doup`
-
+1. Create a `docker-compose.yml` (see below) in your `root` project.
+1. Start docker with `doup` (or `docker-compose up`)
 
 ## Using Docker (compose), for every day
 
-We use `docker-compose` to create environnement for our projects. That's a utility provided by Docker to prepare a bundle of containers and those interactions (Ports, Volumes).
+We use `docker-compose` to create environnement for our projects. 
+That's a utility provided by Docker to prepare a bundle of containers and those interactions (Ports, Volumes).
 
 > Look at [Docker Compose Manual](https://docs.docker.com/compose/overview/).
-
-In each one, you can find :
-
-- a `docker` folder with sub-folder for our container definitions
-- and a `docker-compose.yml` that describe how Docker must use these containers.
-
-In the `docker` folder of the project, there is samples `yml` files they provide template for your `docker-compose.yml`.
-_It's important to keep the name `docker-compose.yml`._
 
 ### Start / Stop
 
@@ -74,7 +68,16 @@ We have created a shell script that provide user friendly commands for you daily
 
 You can install it with :
 
-    curl -s https://raw.githubusercontent.com/Dogstudio/docker-dogs/master/scripts/docker_commands.sh | bash
+    curl -s https://raw.githubusercontent.com/dogstudio/docker-dogs/master/scripts/docker_commands.sh | bash
+
+This script provides shortcut functions like : 
+
+* `doup` : Build and Up the current Docker compose.
+* `dodown` : Down the current Docker compose.
+* `doreload` : Down and up the current Docker compose.
+* `doshell` : Open shell on specified container (autocomplete).
+* `dologs` : Start the Logging system for the current Docker compose.
+* `doco` : Simple alias for docker-compose.
 
 ---
 
