@@ -12,6 +12,6 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - "./dev/public:/var/www/public"
+      - "./dev:/var/www/dev"
       - "./cut:/var/www/cut"
       - "./database:/var/www/database"
