@@ -65,7 +65,7 @@ function _dockerAlias()
     alias doreload="dodown && doup"
     alias dologs="docker-compose logs"
 
-    alias do="docker-compose rm && docker-compose build --no-cache --force-rm && docker-compose up -d"
+    alias doall="docker-compose down && docker-compose rm && docker-compose build --no-cache --force-rm && docker-compose up -d"
 }
 
 # -------------------------------------------------------------------------
