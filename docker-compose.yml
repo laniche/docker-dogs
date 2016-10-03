@@ -7,7 +7,7 @@ services:
       - "3306:3306"
 
   web:
-    image: dogstudio/php
+    build: ../nginx-docker
     ports:
       - "80:80"
       - "443:443"
@@ -15,3 +15,10 @@ services:
       - "./dev:/var/www/dev"
       - "./cut:/var/www/cut"
       - "./database:/var/www/database"
+
+  php:
+    image: dogstudio/php:5.6-fpm
+    ports:
+      - "9000:9000"
+    volumes:
+      - "./dev:/var/www/dev"
