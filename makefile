@@ -1,14 +1,20 @@
 
 .DEFAULT_GOAL: all
-.PHONY: all clean build install
+.PHONY: all stop start test
 
 # -----------------------------------------------------------------------------
 
-all: build
+all: stop build start test
 	@echo "---Complete !---"
 
-build:
-	@docker-compose down \
-		&& docker-compose build --no-cache --force-rm \
-		&& docker-compose up -d \
-		&& bash scripts/testurls.sh
+stop:
+	@docker-compose down
+
+build: stop
+	docker-compose build --no-cache --force-rm
+
+start: stop build
+	docker-compose up -d
+
+test:
+	bash scripts/testurls.sh
