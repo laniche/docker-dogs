@@ -30,14 +30,14 @@ DOCKER_PATH="$HOME/.docker"
 DOCKER_SCRIPT="docker_commands.sh"
 DOCKER_URL="https://raw.githubusercontent.com/Dogstudio/docker-dogs/master/scripts/${DOCKER_SCRIPT}"
 
-[ "$(basename -- $0)" != "$(basename $DOCKER_SCRIPT)" ] && [ -z "${BASH_SOURCE[0]}" ] && (
+[ "$(basename -- $0)" != "$(basename ${DOCKER_SCRIPT})" ] && [ -z "${BASH_SOURCE[0]}" ] && (
     # If ROOT, install globally
     [ "$(id -u)" == "0" ] && DOCKER_PATH="/usr/local/bin"
-    
+
     # Install the file
-    [ -d "$DOCKER_PATH" ] || mkdir -p $DOCKER_PATH
+    [ -d "$DOCKER_PATH" ] || mkdir -p ${DOCKER_PATH}
     curl -sS -o ${DOCKER_PATH}/${DOCKER_SCRIPT} ${DOCKER_URL}
-    
+
     # Add the script in your .(ba|z)shr
     if [ -e "${DOCKER_PATH}/${DOCKER_SCRIPT}" ]; then
         [ -e "$HOME/.bashrc" ] && \
@@ -59,7 +59,7 @@ function _dockerAlias()
 {
     alias doco="docker-compose"
 
-    alias doup="docker-compose build && docker-compose up -d"
+    alias doup="docker-compose build && docker-compose up -d --remove-orphans"
     alias dodown="docker-compose stop"
     alias dorestart="dodown && doup"
     alias doreload="dodown && doup"
@@ -71,14 +71,14 @@ function _dockerAlias()
 # -------------------------------------------------------------------------
 
 function _dockerInit()
-{        
+{
     if ! docker info 2>&1 >/dev/null ; then
         echo -e "${DOCKER_PREFIX} Local deamon is ${COLOR_RED}not running${COLOR_NONE}\n"; return 1
     fi
-    
+
     DOCKER_MACHINE_NAME=$(docker info |awk -F':' '/Name/ {print $2}' | tr -d ' ')
     echo -e "${DOCKER_PREFIX} Local deamon \"${DOCKER_MACHINE_NAME}\" is ${COLOR_GREEN}running${COLOR_NONE}.\n"
-    
+
     _dockerAlias
     _updateDnsMask
 }
@@ -91,13 +91,13 @@ function _updateDnsMask()
     DNSMASQ_CONF="$(brew --prefix)/etc/dnsmasq.conf"
     DOCKER_MACHINE_IP='127.0.0.1'
 
-    if [ -f $DNSMASQ_CONF ]; then
-        if ! grep "${DOCKER_MACHINE_IP}" $DNSMASQ_CONF >/dev/null ; then
+    if [ -f ${DNSMASQ_CONF} ]; then
+        if ! grep "${DOCKER_MACHINE_IP}" ${DNSMASQ_CONF} >/dev/null ; then
             echo -e "${DOCKER_PREFIX} I need ${COLOR_BLUE}update dnsmasq${COLOR_NONE} to match IP: ${DOCKER_MACHINE_IP}."
-            sed -i -e "s|dok/[0-9.]*$|dok/${DOCKER_MACHINE_IP}|" $DNSMASQ_CONF
-            
-            sudo launchctl stop homebrew.mxcl.dnsmasq && 
-            sudo killall -HUP mDNSResponder && 
+            sed -i -e "s|dok/[0-9.]*$|dok/${DOCKER_MACHINE_IP}|" ${DNSMASQ_CONF}
+
+            sudo launchctl stop homebrew.mxcl.dnsmasq &&
+            sudo killall -HUP mDNSResponder &&
             sudo launchctl start homebrew.mxcl.dnsmasq
         fi
     fi
@@ -130,7 +130,7 @@ function dohelp()
 # -------------------------------------------------------------------------
 # Autocompleter
 
-if $(type complete >/dev/null); then    
+if $(type complete >/dev/null); then
     function _completeshell()
     {
         local word="${COMP_WORDS[COMP_CWORD]}"
