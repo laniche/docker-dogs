@@ -11,10 +11,10 @@ stop:
 	@docker-compose down
 
 build: stop
-	docker-compose build --no-cache
+	@docker-compose build --no-cache
 
 start: stop build
-	docker-compose up -d
+	@docker-compose up -d
 
 test:
-	bash scripts/testurls.sh
+	@bash scripts/testurls.sh
