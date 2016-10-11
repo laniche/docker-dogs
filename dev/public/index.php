@@ -1,9 +1,9 @@
 <?php
 try {
     switch (trim(addslashes($_SERVER['REQUEST_URI']))) {
-        case '/pass': 
+        case '/pass':
             header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK', true, 200);
-            echo 'pass'; exit;
+            phpinfo();   exit;
         case '/wrong':
             header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
             echo 'wrong'; exit;
@@ -16,11 +16,11 @@ try {
     $datas = $stmt ? $stmt->fetchAll(PDO::FETCH_ASSOC) : null;
 
     echo '<pre>', print_r([
-        'php_version' => phpversion(),    
+        'php_version' => phpversion(),
         'render_date' => new DateTime('now'),
         'pdo_datas' => $datas,
         $_SERVER
-    ], true), '</pre>'; 
+    ], true), '</pre>';
 }
 catch(PDOException $e) {
     header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
