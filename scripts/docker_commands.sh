@@ -60,7 +60,7 @@ function _dockerAlias()
     alias doco="docker-compose"
 
     alias doup="docker-compose build && docker-compose up -d --remove-orphans"
-    alias dodown="docker-compose stop"
+    alias dodown="docker-compose down --remove-orphans"
     alias dorestart="dodown && doup"
     alias doreload="dodown && doup"
     alias dologs="docker-compose logs"
