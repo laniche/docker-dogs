@@ -5,6 +5,8 @@ services:
     image: dogstudio/mariadb
     ports:
       - "3306:3306"
+    volumes:  
+      - "./database:/docker-entrypoint-initdb.d"
 
   php:
     image: dogstudio/php:7-fpm
@@ -12,10 +14,11 @@ services:
       - "9000:9000"
     volumes:
       - "./dev:/var/www/dev"
+      - "./cut:/var/www/cut"
+      - "./database:/var/www/database"
 
   web:
-    #image: dogstudio/nginx
-    build: docker/nginx
+    image: dogstudio/nginx
     ports:
       - "80:80"
       - "443:443"
