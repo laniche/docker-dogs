@@ -7,7 +7,7 @@
 all: stop build start test
 	@echo ""
 
-stop:
+stop: dumpdb
 	@docker-compose down
 
 build: stop
@@ -18,3 +18,7 @@ start: stop build
 
 test:
 	@bash scripts/testurls.sh
+
+dumpdb:
+	@docker exec labdocker_database_1 sh -c 'exec mysqldump docker_dev -uroot -p"docker"' > database/dump.sql
+
