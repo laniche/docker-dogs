@@ -28,7 +28,6 @@ clear
 echo_title "Base URL"
 testUrl "${BASE_URL}"
 testUrl "${BASE_URL}/"
-testUrl "${BASE_URL}/index.html"
 testUrl "${BASE_URL}/.htaccess" 200,403 # Depend of PHP
 
 echo_title "PHP"
@@ -36,6 +35,7 @@ testUrl "${BASE_URL}/index.php"
 testUrl "${BASE_URL}/pass"
 testUrl "${BASE_URL}/index.php/pass"
 testUrl "${BASE_URL}/wrong" 500
+testUrl "${BASE_URL}/app.php" 200
 
 echo_title "Assets"
 testUrl "${BASE_URL}/assets" 200,301 # Depend of PHP
